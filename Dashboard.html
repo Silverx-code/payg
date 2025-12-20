@@ -3,971 +3,152 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PAYG - Home</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #1a3a1a 0%, #2d5016 50%, #1a3a1a 100%);
-      background-attachment: fixed;
-      color: white;
-      overflow-x: hidden;
-      position: relative;
-    }
-
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: 
-        repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.05) 2px, rgba(0,0,0,0.05) 4px),
-        repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0,0,0,0.05) 2px, rgba(0,0,0,0.05) 4px);
-      pointer-events: none;
-      opacity: 0.3;
-      z-index: 0;
-    }
-
-    /* Animated Navigation */
-    .nav {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      background: rgba(26, 58, 26, 0.95);
-      backdrop-filter: blur(15px);
-      padding: 1rem 2rem;
-      z-index: 1000;
-      animation: slideDown 0.8s ease-out;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-      border-bottom: 2px solid rgba(139, 195, 74, 0.3);
-    }
-
-    @keyframes slideDown {
-      from {
-        transform: translateY(-100%);
-        opacity: 0;
-      }
-      to {
-        transform: translateY(0);
-        opacity: 1;
-      }
-    }
-
-    .nav-container {
-      max-width: 1400px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .user-info {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .username-display {
-      color: #8BC34A;
-      font-weight: 600;
-      padding: 0.5rem 1rem;
-      background: rgba(139, 195, 74, 0.1);
-      border-radius: 20px;
-      border: 1px solid rgba(139, 195, 74, 0.3);
-      display: none;
-      animation: slideInRight 0.5s ease-out;
-    }
-
-    .username-display.show {
-      display: block;
-    }
-
-    .username-display span {
-      color: white;
-      margin-left: 0.3rem;
-    }
-
-    .logo {
-      font-size: 2rem;
-      font-weight: bold;
-      background: linear-gradient(45deg, #8BC34A, #4CAF50, #66BB6A);
-      background-size: 200% auto;
-      -webkit-text-fill-color: transparent;
-      animation: logoGlow 3s ease-in-out infinite;
-      letter-spacing: 2px;
-    }
-
-    @keyframes logoGlow {
-      0%, 100% { 
-        filter: drop-shadow(0 0 10px rgba(139, 195, 74, 0.6));
-        background-position: 0% center;
-      }
-      50% { 
-        filter: drop-shadow(0 0 25px rgba(139, 195, 74, 0.9));
-        background-position: 100% center;
-      }
-    }
-
-    .nav-links {
-      display: flex;
-      list-style: none;
-      gap: 2rem;
-      align-items: center;
-    }
-
-    .nav-links a {
-      color: white;
-      text-decoration: none;
-      font-weight: 600;
-      position: relative;
-      transition: color 0.3s;
-      padding: 0.5rem 0;
-    }
-
-    .nav-links a::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 0;
-      height: 2px;
-      background: linear-gradient(90deg, #8BC34A, #66BB6A);
-      transition: width 0.3s ease;
-    }
-
-    .nav-links a:hover::after {
-      width: 100%;
-    }
-
-    .nav-links a:hover {
-      color: #8BC34A;
-    }
-
-    .admin-link {
-      background: rgba(139, 195, 74, 0.2);
-      padding: 0.5rem 1.5rem;
-      border-radius: 25px;
-      border: 2px solid #8BC34A;
-      transition: all 0.3s ease;
-    }
-
-    .admin-link:hover {
-      background: rgba(139, 195, 74, 0.4);
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(139, 195, 74, 0.3);
-    }
-
-    /* Hero Section */
-    .hero {
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero::before {
-      content: '';
-      position: absolute;
-      width: 600px;
-      height: 600px;
-      background: radial-gradient(circle, rgba(139, 195, 74, 0.2), transparent);
-      border-radius: 50%;
-      animation: float 8s ease-in-out infinite;
-      top: 10%;
-      left: -10%;
-    }
-
-    .hero::after {
-      content: '';
-      position: absolute;
-      width: 500px;
-      height: 500px;
-      background: radial-gradient(circle, rgba(76, 175, 80, 0.15), transparent);
-      border-radius: 50%;
-      animation: float 10s ease-in-out infinite reverse;
-      bottom: 10%;
-      right: -10%;
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translate(0, 0) scale(1); }
-      50% { transform: translate(50px, 50px) scale(1.1); }
-    }
-
-    .hero-content {
-      text-align: center;
-      z-index: 1;
-      animation: fadeInUp 1s ease-out;
-      position: relative;
-    }
-
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .hero h1 {
-      font-size: 4.5rem;
-      margin-bottom: 1rem;
-      background: linear-gradient(45deg, #8BC34A, #4CAF50, #66BB6A, #8BC34A);
-      background-size: 300% auto;
-      -webkit-text-fill-color: transparent;
-      animation: gradient 4s linear infinite;
-      text-shadow: 0 0 30px rgba(139, 195, 74, 0.5);
-    }
-
-    @keyframes gradient {
-      to { background-position: 300% center; }
-    }
-
-    .hero p {
-      font-size: 1.5rem;
-      color: rgba(255, 255, 255, 0.9);
-      margin-bottom: 2.5rem;
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-    }
-
-    .cta-button {
-      display: inline-block;
-      padding: 1.2rem 3.5rem;
-      background: linear-gradient(45deg, #4CAF50, #8BC34A);
-      color: white;
-      text-decoration: none;
-      border-radius: 50px;
-      font-weight: bold;
-      font-size: 1.1rem;
-      transition: all 0.3s ease;
-      box-shadow: 0 5px 25px rgba(139, 195, 74, 0.4);
-      animation: pulse 2s ease-in-out infinite;
-      border: 2px solid transparent;
-    }
-
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-    }
-
-    .cta-button:hover {
-      transform: translateY(-3px) scale(1.05);
-      box-shadow: 0 8px 35px rgba(139, 195, 74, 0.6);
-      border-color: #66BB6A;
-    }
-
-    /* Section Styles */
-    section {
-      min-height: 100vh;
-      padding: 6rem 2rem;
-      position: relative;
-      z-index: 1;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .section-title {
-      font-size: 3rem;
-      text-align: center;
-      margin-bottom: 3rem;
-      position: relative;
-      display: inline-block;
-      width: 100%;
-      animation: fadeIn 1s ease-out;
-      color: #8BC34A;
-      text-shadow: 0 0 20px rgba(139, 195, 74, 0.4);
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    .section-title::after {
-      content: '';
-      position: absolute;
-      bottom: -10px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100px;
-      height: 4px;
-      background: linear-gradient(90deg, #4CAF50, #8BC34A, #66BB6A);
-      border-radius: 2px;
-      box-shadow: 0 0 10px rgba(139, 195, 74, 0.5);
-    }
-
-    /* About Section */
-    .about-content {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 3rem;
-      align-items: center;
-    }
-
-    .about-box {
-      background: rgba(45, 80, 22, 0.4);
-      backdrop-filter: blur(10px);
-      border: 2px solid rgba(139, 195, 74, 0.3);
-      border-radius: 20px;
-      padding: 3rem;
-      transition: all 0.5s ease;
-      animation: slideInLeft 1s ease-out;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    }
-
-    @keyframes slideInLeft {
-      from {
-        opacity: 0;
-        transform: translateX(-50px);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(0);
-      }
-    }
-
-    .about-box:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 15px 40px rgba(139, 195, 74, 0.4);
-      border-color: #8BC34A;
-      background: rgba(45, 80, 22, 0.6);
-    }
-
-    .about-box h3 {
-      font-size: 2rem;
-      margin-bottom: 1rem;
-      color: #8BC34A;
-      text-shadow: 0 0 10px rgba(139, 195, 74, 0.3);
-    }
-
-    .about-box p {
-      line-height: 1.8;
-      color: rgba(255, 255, 255, 0.9);
-      font-size: 1.1rem;
-    }
-
-    .text-transition {
-      display: inline-block;
-      animation: colorChange 5s ease-in-out infinite;
-      font-weight: 600;
-    }
-
-    @keyframes colorChange {
-      0%, 100% { color: #8BC34A; }
-      33% { color: #4FC3F7; }
-      66% { color: #A1887F; }
-    }
-
-    /* Mission & Vision */
-    .mission-vision {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2.5rem;
-      margin-top: 3rem;
-    }
-
-    .card {
-      background: rgba(45, 80, 22, 0.4);
-      backdrop-filter: blur(10px);
-      border: 2px solid rgba(139, 195, 74, 0.3);
-      border-radius: 20px;
-      padding: 3rem 2rem;
-      text-align: center;
-      transition: all 0.5s ease;
-      animation: fadeInUp 1s ease-out;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    }
-
-    .card:nth-child(1) {
-      animation-delay: 0.2s;
-      border-color: rgba(139, 195, 74, 0.4);
-    }
-
-    .card:nth-child(2) {
-      animation-delay: 0.4s;
-      border-color: rgba(79, 195, 247, 0.4);
-    }
-
-    .card-icon {
-      font-size: 4rem;
-      margin-bottom: 1.5rem;
-      display: inline-block;
-      animation: bounce 2s ease-in-out infinite;
-    }
-
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-20px); }
-    }
-
-    .card:hover {
-      transform: translateY(-15px) scale(1.03);
-      box-shadow: 0 20px 50px rgba(139, 195, 74, 0.5);
-      border-color: #8BC34A;
-    }
-
-    .card:nth-child(2):hover {
-      border-color: #4FC3F7;
-      box-shadow: 0 20px 50px rgba(79, 195, 247, 0.3);
-    }
-
-    .card h3 {
-      font-size: 1.8rem;
-      margin-bottom: 1rem;
-      color: #8BC34A;
-    }
-
-    .card:nth-child(2) h3 {
-      color: #4FC3F7;
-    }
-
-    .card p {
-      line-height: 1.8;
-      color: rgba(255, 255, 255, 0.9);
-    }
-
-    /* Pictures Section */
-    .pictures-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2rem;
-      margin-top: 3rem;
-    }
-
-    .picture-card {
-      background: rgba(45, 80, 22, 0.4);
-      backdrop-filter: blur(10px);
-      border: 2px solid rgba(139, 195, 74, 0.3);
-      border-radius: 20px;
-      padding: 2rem;
-      transition: all 0.5s ease;
-      animation: fadeInScale 0.8s ease-out;
-      text-align: center;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-      min-height: 350px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    .image-placeholder {
-      width: 100%;
-      height: 200px;
-      background: linear-gradient(135deg, rgba(139, 195, 74, 0.2), rgba(76, 175, 80, 0.2));
-      border: 3px dashed rgba(139, 195, 74, 0.5);
-      border-radius: 15px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 1.5rem;
-      font-size: 3rem;
-      color: rgba(139, 195, 74, 0.6);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .image-placeholder::before {
-      content: 'IMAGE PLACEHOLDER';
-      position: absolute;
-      font-size: 0.8rem;
-      font-weight: bold;
-      color: rgba(139, 195, 74, 0.5);
-      letter-spacing: 2px;
-    }
-
-    .image-placeholder::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 80px;
-      height: 80px;
-      border: 3px solid rgba(139, 195, 74, 0.3);
-      border-radius: 50%;
-      animation: ripple 2s ease-in-out infinite;
-    }
-
-    @keyframes ripple {
-      0% {
-        width: 80px;
-        height: 80px;
-        opacity: 1;
-      }
-      100% {
-        width: 150px;
-        height: 150px;
-        opacity: 0;
-      }
-    }
-
-    @keyframes fadeInScale {
-      from {
-        opacity: 0;
-        transform: scale(0.8);
-      }
-      to {
-        opacity: 1;
-        transform: scale(1);
-      }
-    }
-
-    .picture-card:hover {
-      transform: translateY(-10px) scale(1.05);
-      box-shadow: 0 20px 40px rgba(139, 195, 74, 0.4);
-      border-color: #8BC34A;
-    }
-
-    .picture-icon {
-      font-size: 5rem;
-      margin-bottom: 1rem;
-      animation: rotate 4s ease-in-out infinite;
-    }
-
-    @keyframes rotate {
-      0%, 100% { transform: rotate(0deg) scale(1); }
-      50% { transform: rotate(10deg) scale(1.1); }
-    }
-
-    .picture-card h4 {
-      font-size: 1.4rem;
-      color: #8BC34A;
-      margin-bottom: 0.5rem;
-    }
-
-    .picture-card p {
-      color: rgba(255, 255, 255, 0.8);
-      line-height: 1.6;
-    }
-
-    /* Contact Section */
-    .contact-container {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 3rem;
-      margin-top: 3rem;
-    }
-
-    .contact-info {
-      animation: slideInLeft 1s ease-out;
-    }
-
-    .contact-item {
-      display: flex;
-      align-items: center;
-      gap: 1.5rem;
-      margin-bottom: 2rem;
-      padding: 1.5rem;
-      background: rgba(45, 80, 22, 0.4);
-      border: 2px solid rgba(139, 195, 74, 0.3);
-      border-radius: 15px;
-      transition: all 0.3s ease;
-      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-    }
-
-    .contact-item:hover {
-      background: rgba(45, 80, 22, 0.6);
-      transform: translateX(10px);
-      border-color: #8BC34A;
-      box-shadow: 0 10px 30px rgba(139, 195, 74, 0.3);
-    }
-
-    .contact-icon {
-      font-size: 2.5rem;
-      animation: iconPulse 2s ease-in-out infinite;
-    }
-
-    @keyframes iconPulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.1); }
-    }
-
-    .contact-form {
-      background: rgba(45, 80, 22, 0.4);
-      backdrop-filter: blur(10px);
-      border: 2px solid rgba(139, 195, 74, 0.3);
-      border-radius: 20px;
-      padding: 3rem;
-      animation: slideInRight 1s ease-out;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    }
-
-    @keyframes slideInRight {
-      from {
-        opacity: 0;
-        transform: translateX(50px);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(0);
-      }
-    }
-
-    .form-group {
-      margin-bottom: 1.5rem;
-    }
-
-    .form-group label {
-      display: block;
-      margin-bottom: 0.5rem;
-      color: #8BC34A;
-      font-weight: 600;
-    }
-
-    .form-group input,
-    .form-group textarea {
-      width: 100%;
-      padding: 1rem;
-      background: rgba(26, 58, 26, 0.6);
-      border: 2px solid rgba(139, 195, 74, 0.3);
-      border-radius: 10px;
-      color: white;
-      font-size: 1rem;
-      transition: all 0.3s ease;
-    }
-
-    .form-group input:focus,
-    .form-group textarea:focus {
-      outline: none;
-      border-color: #8BC34A;
-      box-shadow: 0 0 20px rgba(139, 195, 74, 0.3);
-      background: rgba(26, 58, 26, 0.8);
-    }
-
-    .form-group textarea {
-      resize: vertical;
-      min-height: 120px;
-    }
-
-    .submit-btn {
-      width: 100%;
-      padding: 1rem;
-      background: linear-gradient(45deg, #4CAF50, #8BC34A);
-      color: white;
-      border: 2px solid transparent;
-      border-radius: 10px;
-      font-size: 1.1rem;
-      font-weight: bold;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .submit-btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 30px rgba(139, 195, 74, 0.5);
-      border-color: #66BB6A;
-    }
-
-    /* Footer */
-    footer {
-      background: rgba(26, 58, 26, 0.9);
-      text-align: center;
-      padding: 2rem;
-      margin-top: 4rem;
-      border-top: 2px solid rgba(139, 195, 74, 0.3);
-    }
-
-    footer p {
-      color: rgba(255, 255, 255, 0.8);
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      .hero h1 {
-        font-size: 2.5rem;
-      }
-
-      .about-content,
-      .contact-container {
-        grid-template-columns: 1fr;
-      }
-
-      .nav-links {
-        gap: 1rem;
-        font-size: 0.9rem;
-      }
-
-      .section-title {
-        font-size: 2rem;
-      }
-
-      .logo {
-        font-size: 1.5rem;
-      }
-    }
-
-    /* Scroll Animation Trigger */
-    .animate-on-scroll {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: all 0.8s ease;
-    }
-
-    .animate-on-scroll.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  </style>
+  <title>Dashboard - PAYG</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-  <!-- Navigation -->
   <nav class="nav">
-    <div class="nav-container">
-      <div class="logo">PAYG</div>
-      <ul class="nav-links">
-        <li><a href="#home">Home</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#mission">Mission & Vision</a></li>
-        <li><a href="#pictures">Pictures</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-      <div class="user-info">
-        <div id="usernameDisplay" class="username-display">
-          Welcome, <span id="username">Guest</span>
-        </div>
-        <a href="dashboard.html" class="admin-link">Admin Portal</a>
+    <h1 class="logo" id="dashboardLogo">PAYG</h1>
+    <ul style="display: flex; list-style: none; gap: 2rem; align-items: center;">
+      <li><a href="#" style="color: white; text-decoration: none; font-weight: 600;">Dashboard</a></li>
+      <li><a href="#" style="color: white; text-decoration: none; font-weight: 600;">Payments</a></li>
+      <li><a href="#" style="color: white; text-decoration: none; font-weight: 600;">Coverage</a></li>
+      <li><a href="#" style="color: white; text-decoration: none; font-weight: 600;">Support</a></li>
+    </ul>
+    <div class="user-info" style="display: flex; align-items: center; gap: 1rem;">
+      <div class="username-display show">
+        <span id="navUsername">User</span>
       </div>
+      <button class="logout-btn" onclick="logout()">Logout</button>
     </div>
   </nav>
 
-  <!-- Hero Section -->
-  <section id="home" class="hero">
-    <div class="hero-content">
-      <h1>Welcome to PAYG</h1>
-      <p>Simplifying Health Insurance Payments - Pay As You Go</p>
-      <a href="#about" class="cta-button">Learn How It Works</a>
-    </div>
-  </section>
+  <main class="main">
+    <h2>Welcome Back, <span id="mainUsername" style="color: #8BC34A;">User</span>!</h2>
 
-  <!-- About Section -->
-  <section id="about">
-    <div class="container">
-      <h2 class="section-title animate-on-scroll">About PAYG</h2>
-      <div class="about-content">
-        <div class="about-box animate-on-scroll">
-          <h3>Who We Are</h3>
-          <p>PAYG is a <span class="text-transition">revolutionary platform</span> that bridges the gap between individuals and health insurance companies. We simplify the payment process, making healthcare insurance accessible and transparent for everyone.</p>
-        </div>
-        <div class="about-box animate-on-scroll">
-          <h3>How It Works</h3>
-          <p>Our platform enables <span class="text-transition">seamless transactions</span> between you and your insurance provider. Pay premiums, manage claims, and track your coverage - all in one secure, easy-to-use system.</p>
-        </div>
+    <div class="stats">
+      <div class="card">
+        <div style="font-size: 2rem; margin-bottom: 0.5rem;">👥</div>
+        <div style="font-size: 2rem; font-weight: bold; color: #4CAF50; margin-bottom: 0.5rem;">120</div>
+        <div>Active Members</div>
+      </div>
+      <div class="card">
+        <div style="font-size: 2rem; margin-bottom: 0.5rem;">💳</div>
+        <div style="font-size: 2rem; font-weight: bold; color: #4FC3F7; margin-bottom: 0.5rem;">54</div>
+        <div>Transactions Today</div>
+      </div>
+      <div class="card">
+        <div style="font-size: 2rem; margin-bottom: 0.5rem;">🏥</div>
+        <div style="font-size: 2rem; font-weight: bold; color: #8BC34A; margin-bottom: 0.5rem;">18</div>
+        <div>Insurance Partners</div>
       </div>
     </div>
-  </section>
 
-  <!-- Mission & Vision Section -->
-  <section id="mission">
-    <div class="container">
-      <h2 class="section-title animate-on-scroll">Mission & Vision</h2>
-      <div class="mission-vision">
-        <div class="card animate-on-scroll">
-          <div class="card-icon">🎯</div>
-          <h3>Our Mission</h3>
-          <p>To democratize health insurance payments by creating a transparent, efficient, and user-friendly platform that connects individuals directly with insurance providers, eliminating complexity and delays in healthcare transactions.</p>
-        </div>
-        <div class="card animate-on-scroll">
-          <div class="card-icon">🚀</div>
-          <h3>Our Vision</h3>
-          <p>To become the leading payment gateway for health insurance globally, where every individual has instant access to affordable healthcare coverage through seamless, secure, and transparent transactions.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Pictures Section -->
-  <section id="pictures">
-    <div class="container">
-      <h2 class="section-title animate-on-scroll">Our Services</h2>
-      <div class="pictures-grid">
-        <!-- ===== IMAGE 1: Insurance Partners ===== -->
-        <!-- REPLACE THE CONTENT BELOW WITH: <img src="path/to/insurance-partners.jpg" alt="Insurance Partners" style="width: 100%; height: 200px; object-fit: cover; border-radius: 15px; margin-bottom: 1.5rem;"> -->
-        <div class="picture-card animate-on-scroll">
-          <div class="image-placeholder">
-            <div class="picture-icon">🏥</div>
-          </div>
-          <h4>Multiple Insurance Partners</h4>
-          <p>Access to leading health insurance providers all in one platform</p>
-        </div>
-        
-        <!-- ===== IMAGE 2: Secure Payments ===== -->
-        <!-- REPLACE THE CONTENT BELOW WITH: <img src="path/to/secure-payment.jpg" alt="Secure Payments" style="width: 100%; height: 200px; object-fit: cover; border-radius: 15px; margin-bottom: 1.5rem;"> -->
-        <div class="picture-card animate-on-scroll">
-          <div class="image-placeholder">
-            <div class="picture-icon">💳</div>
-          </div>
-          <h4>Secure Payment Gateway</h4>
-          <p>Bank-level encryption ensures your transactions are always protected</p>
-        </div>
-        
-        <!-- ===== IMAGE 3: Real-time Tracking ===== -->
-        <!-- REPLACE THE CONTENT BELOW WITH: <img src="path/to/tracking-dashboard.jpg" alt="Real-time Tracking" style="width: 100%; height: 200px; object-fit: cover; border-radius: 15px; margin-bottom: 1.5rem;"> -->
-        <div class="picture-card animate-on-scroll">
-          <div class="image-placeholder">
-            <div class="picture-icon">📊</div>
-          </div>
-          <h4>Real-time Tracking</h4>
-          <p>Monitor your payments, claims, and coverage status instantly</p>
-        </div>
-        
-        <!-- ===== IMAGE 4: Smart Notifications ===== -->
-        <!-- REPLACE THE CONTENT BELOW WITH: <img src="path/to/notifications.jpg" alt="Smart Notifications" style="width: 100%; height: 200px; object-fit: cover; border-radius: 15px; margin-bottom: 1.5rem;"> -->
-        <div class="picture-card animate-on-scroll">
-          <div class="image-placeholder">
-            <div class="picture-icon">🔔</div>
-          </div>
-          <h4>Smart Notifications</h4>
-          <p>Never miss a payment deadline with automated reminders and alerts</p>
-        </div>
-        
-        <!-- ===== IMAGE 5: Instant Processing ===== -->
-        <!-- REPLACE THE CONTENT BELOW WITH: <img src="path/to/instant-processing.jpg" alt="Instant Processing" style="width: 100%; height: 200px; object-fit: cover; border-radius: 15px; margin-bottom: 1.5rem;"> -->
-        <div class="picture-card animate-on-scroll">
-          <div class="image-placeholder">
-            <div class="picture-icon">⚡</div>
-          </div>
-          <h4>Instant Processing</h4>
-          <p>Payments processed immediately with instant confirmation receipts</p>
-        </div>
-        
-        <!-- ===== IMAGE 6: 24/7 Support ===== -->
-        <!-- REPLACE THE CONTENT BELOW WITH: <img src="path/to/customer-support.jpg" alt="24/7 Support" style="width: 100%; height: 200px; object-fit: cover; border-radius: 15px; margin-bottom: 1.5rem;"> -->
-        <div class="picture-card animate-on-scroll">
-          <div class="image-placeholder">
-            <div class="picture-icon">💬</div>
-          </div>
-          <h4>24/7 Customer Support</h4>
-          <p>Our dedicated team is always available to assist you with any queries</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Contact Section -->
-  <section id="contact">
-    <div class="container">
-      <h2 class="section-title animate-on-scroll">Contact Us</h2>
-      <div class="contact-container">
-        <div class="contact-info">
-          <div class="contact-item animate-on-scroll">
-            <div class="contact-icon">📧</div>
+    <!-- Recent Activity Section -->
+    <div style="margin-top: 3rem;">
+      <h3 style="color: #8BC34A; font-size: 1.8rem; margin-bottom: 1.5rem;">Recent Activity</h3>
+      <div style="display: grid; gap: 1rem;">
+        <div class="card" style="display: flex; align-items: center; justify-content: space-between;">
+          <div style="display: flex; align-items: center; gap: 1rem;">
+            <div style="font-size: 2rem;">✅</div>
             <div>
-              <h4>Email</h4>
-              <p>info@payg.com</p>
+              <div style="font-weight: 600; margin-bottom: 0.3rem;">Payment Successful</div>
+              <div style="color: rgba(45, 80, 22, 0.7); font-size: 0.9rem;">Premium payment for December 2024</div>
             </div>
           </div>
-          <div class="contact-item animate-on-scroll">
-            <div class="contact-icon">📱</div>
-            <div>
-              <h4>Phone</h4>
-              <p>+1 (555) 789-0123</p>
-            </div>
-          </div>
-          <div class="contact-item animate-on-scroll">
-            <div class="contact-icon">📍</div>
-            <div>
-              <h4>Location</h4>
-              <p>456 Green Valley Road, Eco City</p>
-            </div>
-          </div>
+          <div style="color: #4CAF50; font-weight: 600;">$150.00</div>
         </div>
-        <form class="contact-form" onsubmit="handleSubmit(event)">
-          <div class="form-group">
-            <label>Name</label>
-            <input type="text" required>
+
+        <div class="card" style="display: flex; align-items: center; justify-content: space-between;">
+          <div style="display: flex; align-items: center; gap: 1rem;">
+            <div style="font-size: 2rem;">📄</div>
+            <div>
+              <div style="font-weight: 600; margin-bottom: 0.3rem;">Policy Updated</div>
+              <div style="color: rgba(45, 80, 22, 0.7); font-size: 0.9rem;">Your coverage has been extended</div>
+            </div>
           </div>
-          <div class="form-group">
-            <label>Email</label>
-            <input type="email" required>
+          <div style="color: #4FC3F7; font-weight: 600;">Active</div>
+        </div>
+
+        <div class="card" style="display: flex; align-items: center; justify-content: space-between;">
+          <div style="display: flex; align-items: center; gap: 1rem;">
+            <div style="font-size: 2rem;">🔔</div>
+            <div>
+              <div style="font-weight: 600; margin-bottom: 0.3rem;">Reminder</div>
+              <div style="color: rgba(45, 80, 22, 0.7); font-size: 0.9rem;">Next payment due in 15 days</div>
+            </div>
           </div>
-          <div class="form-group">
-            <label>Message</label>
-            <textarea required></textarea>
-          </div>
-          <button type="submit" class="submit-btn">Send Message</button>
-        </form>
+          <div style="color: #A1887F; font-weight: 600;">Pending</div>
+        </div>
       </div>
     </div>
-  </section>
 
-  <!-- Footer -->
-  <footer>
-    <p>&copy; 2024 PAYG. All rights reserved. | Growing Together 🌿</p>
-  </footer>
+    <!-- Quick Actions -->
+    <div style="margin-top: 3rem;">
+      <h3 style="color: #8BC34A; font-size: 1.8rem; margin-bottom: 1.5rem;">Quick Actions</h3>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+        <button class="card" style="cursor: pointer; border: none; text-align: center; padding: 2rem; transition: all 0.3s;" onclick="alert('Make Payment feature coming soon!')">
+          <div style="font-size: 3rem; margin-bottom: 0.5rem;">💰</div>
+          <div style="font-weight: 600; color: #2d5016;">Make Payment</div>
+        </button>
+
+        <button class="card" style="cursor: pointer; border: none; text-align: center; padding: 2rem; transition: all 0.3s;" onclick="alert('View Coverage feature coming soon!')">
+          <div style="font-size: 3rem; margin-bottom: 0.5rem;">📋</div>
+          <div style="font-weight: 600; color: #2d5016;">View Coverage</div>
+        </button>
+
+        <button class="card" style="cursor: pointer; border: none; text-align: center; padding: 2rem; transition: all 0.3s;" onclick="alert('Download Statement feature coming soon!')">
+          <div style="font-size: 3rem; margin-bottom: 0.5rem;">📥</div>
+          <div style="font-weight: 600; color: #2d5016;">Download Statement</div>
+        </button>
+
+        <button class="card" style="cursor: pointer; border: none; text-align: center; padding: 2rem; transition: all 0.3s;" onclick="alert('Contact Support feature coming soon!')">
+          <div style="font-size: 3rem; margin-bottom: 0.5rem;">💬</div>
+          <div style="font-weight: 600; color: #2d5016;">Contact Support</div>
+        </button>
+      </div>
+    </div>
+  </main>
 
   <script>
-    // Check if user is logged in and display username
-    window.addEventListener('DOMContentLoaded', () => {
-      const username = localStorage.getItem('username');
-      const isLoggedIn = localStorage.getItem('isLoggedIn');
-      
-      if (username && isLoggedIn) {
-        document.getElementById('username').textContent = username;
-        document.getElementById('usernameDisplay').classList.add('show');
-      }
-    });
-
-    // Smooth scrolling
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-          target.scrollIntoView({ behavior: 'smooth' });
-        }
-      });
-    });
-
-    // Scroll animation observer
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -100px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, observerOptions);
-
-    document.querySelectorAll('.animate-on-scroll').forEach(el => {
-      observer.observe(el);
-    });
-
-    // Form submission
-    function handleSubmit(event) {
-      event.preventDefault();
-      alert('Thank you for your message! We will get back to you soon.');
-      event.target.reset();
+    // Check if user is logged in
+    const isLoggedIn = localStorage.getItem('isLoggedIn');
+    if (!isLoggedIn) {
+      window.location.href = 'login.html';
     }
 
-    // Add parallax effect to hero
-    window.addEventListener('scroll', () => {
-      const scrolled = window.pageYOffset;
-      const hero = document.querySelector('.hero');
-      if (hero) {
-        hero.style.transform = `translateY(${scrolled * 0.5}px)`;
-      }
+    // Display username in multiple locations
+    const username = localStorage.getItem('username') || 'User';
+    
+    // Update logo to show username
+    document.getElementById('dashboardLogo').textContent = `${username}'s Dashboard`;
+    
+    // Update nav username
+    document.getElementById('navUsername').textContent = username;
+    
+    // Update main welcome message
+    document.getElementById('mainUsername').textContent = username;
+
+    function logout() {
+      localStorage.removeItem('isLoggedIn');
+      localStorage.removeItem('username');
+      window.location.href = 'index.html'; // Returns to welcome page
+    }
+
+    // Add hover effects to quick action cards
+    document.querySelectorAll('button.card').forEach(btn => {
+      btn.addEventListener('mouseenter', function() {
+        this.style.transform = 'translateY(-5px)';
+        this.style.boxShadow = '0 15px 40px rgba(139, 195, 74, 0.4)';
+      });
+      btn.addEventListener('mouseleave', function() {
+        this.style.transform = 'translateY(0)';
+        this.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.2)';
+      });
     });
   </script>
 
 </body>
 </html>
+
